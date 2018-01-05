@@ -5,11 +5,20 @@
  */
 package jaeoha_client_1;
 
+import databaseclasses.Users;
+import java.rmi.AccessException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import rmi.interfaces.ServerInterface;
 
 /**
  *
@@ -17,12 +26,27 @@ import javafx.stage.Stage;
  */
 public class JAEOHA_Client_1 extends Application {
     
+    Registry registry;
+    public JAEOHA_Client_1()
+    {
+        try {
+            registry=LocateRegistry.getRegistry("127.0.0.1", 1099);
+            ServerInterface serverRemoteObject=(ServerInterface) registry.lookup("chat");
+            Users u=new Users();
+            u.setActive(1);
+            System.err.println(serverRemoteObject.signUp(u));
+            
+        } catch (RemoteException ex) {
+            Logger.getLogger(JAEOHA_Client_1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NotBoundException ex) {
+            Logger.getLogger(JAEOHA_Client_1.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
     @Override
     public void start(Stage stage) throws Exception {
+        
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
         Scene scene = new Scene(root);
-        
         stage.setScene(scene);
         stage.show();
     }
