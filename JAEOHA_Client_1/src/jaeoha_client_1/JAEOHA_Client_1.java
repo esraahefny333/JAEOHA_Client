@@ -5,6 +5,7 @@
  */
 package jaeoha_client_1;
 
+import controllers.Controller_login;
 import databaseclasses.Users;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
@@ -27,11 +28,13 @@ import rmi.interfaces.ServerInterface;
 public class JAEOHA_Client_1 extends Application {
     
     Registry registry;
+    Controller_login controller_login;
+     ServerInterface serverRemoteObject;
     public JAEOHA_Client_1()
     {
         try {
             registry=LocateRegistry.getRegistry("127.0.0.1", 1099);
-            ServerInterface serverRemoteObject=(ServerInterface) registry.lookup("chat");
+            serverRemoteObject=(ServerInterface) registry.lookup("chat");
             Users u=new Users();
             u.setActive(1);
             System.err.println(serverRemoteObject.signUp(u));
@@ -45,8 +48,12 @@ public class JAEOHA_Client_1 extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        Scene scene = new Scene(root);
+       FXMLLoader loader=new FXMLLoader(getClass().getResource("../view/myViewFXML.fxml"));
+       controller_login=new  Controller_login (serverRemoteObject);
+       loader.setController(controller_login);
+      // this.model.setController(controller);//make obj from clientimpl and register
+       Parent root=loader.load();
+        Scene scene =new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
