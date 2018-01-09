@@ -26,7 +26,7 @@ import rmi.interfaces.ServerInterface;
  * @author esraa
  */
 public class JAEOHA_Client_1 extends Application {
-    
+
     Registry registry;
     Controller_login controller_login;
      ServerInterface serverRemoteObject;
@@ -43,8 +43,10 @@ public class JAEOHA_Client_1 extends Application {
             Logger.getLogger(JAEOHA_Client_1.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NotBoundException ex) {
             Logger.getLogger(JAEOHA_Client_1.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
+
     }
+
     @Override
     public void start(Stage stage) throws Exception {
         
@@ -64,5 +66,5 @@ public class JAEOHA_Client_1 extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
